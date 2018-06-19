@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://www.oracle.com/soasample" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.oracle.com/soasample" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Order" type="OrderType">
+    <xs:annotation>
+      <xs:documentation>The canonical order element</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="OrderAck" type="OrderAckType">
+    <xs:annotation>
+      <xs:documentation>The canonical order ack element</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="PaymentInfo" type="PaymentType">
+    <xs:annotation>
+      <xs:documentation>The canonical order element</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="PaymentStatus" type="PaymentStatusType">
+    <xs:annotation>
+      <xs:documentation>The canonical order element</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="Shipping" type="ShippingType">
+    <xs:annotation>
+      <xs:documentation>The canonical order element</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="InventoryQuery" type="InventoryQueryType">
+    <xs:annotation>
+      <xs:documentation>The inventory element</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="InventoryResponse" type="InventoryType">
+    <xs:annotation>
+      <xs:documentation>The inventory element</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="TotalOrderAmount" type="MoneyType">
+    <xs:annotation>
+      <xs:documentation>The total order amount element</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:simpleType name="MoneyType">
+    <xs:restriction base="xs:double" />
+  </xs:simpleType>
+  <xs:simpleType name="OrderNumberType">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="25" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="NameType">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="50" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="AddressType">
+    <xs:sequence>
+      <xs:element name="FirstName" type="NameType" />
+      <xs:element minOccurs="1" name="LastName" type="NameType" />
+      <xs:sequence minOccurs="1" maxOccurs="3">
+        <xs:element name="AddressLine">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="180" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+      </xs:sequence>
+      <xs:element name="City">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="25" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="State">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="15" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="ZipCode">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="10" />
+            <xs:minLength value="5" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element minOccurs="1" name="PhoneNumber">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="11" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ItemType">
+    <xs:annotation>
+      <xs:documentation>This information will be populated from INVDTA/ITMMSTP from bronze where product_id = isku</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="SKU">
+        <xs:annotation>
+          <xs:documentation>Column ISKU</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:length value="5" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Quantity" type="xs:int" />
+      <xs:element name="UnitPrice" type="MoneyType" />
+      <xs:element name="Brand" nillable="true" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Column BRAND</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Model" nillable="true">
+        <xs:annotation>
+          <xs:documentation>Column MODEL</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="20" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Category" nillable="true">
+        <xs:annotation>
+          <xs:documentation>Column CATEG</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:totalDigits value="4" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Description" nillable="true">
+        <xs:annotation>
+          <xs:documentation />
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="30" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="ShippingSpeedType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Standard" />
+      <xs:enumeration value="Twoday" />
+      <xs:enumeration value="Oneday" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ShippingProviderType">
+    <xs:annotation>
+      <xs:documentation>ShippingProviderType for now only contains the name of the Provider - we may expand later</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Name" nillable="true">
+        <xs:annotation>
+          <xs:documentation>Name of the shipping provider for packing service - FedEx ups, us postal</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="20" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="OrderType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="OrderNumber" type="OrderNumberType" />
+      <xs:element minOccurs="0" name="SessionID">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="20" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element minOccurs="0" name="OrderDate" type="xs:dateTime" />
+      <xs:element minOccurs="1" name="Billing" type="PaymentType" />
+      <xs:element minOccurs="1" name="Shipping" type="ShippingType" />
+      <xs:element minOccurs="1" name="Email">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Items">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="Item" type="ItemType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="Status" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PaymentType">
+    <xs:sequence>
+      <xs:element name="CardPaymentType">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:pattern value="[0-5]" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="CardNum">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:length value="16" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="ExpireDate">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:length value="4" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="CardName">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="BillingAddress" type="AddressType" />
+      <xs:element minOccurs="0" name="AuthorizationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="AuthorizationAmount" type="MoneyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="ShippingMethodType">
+    <xs:restriction base="xs:int">
+      <xs:pattern value="[1-3]{1}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ShippingType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="OrderNumber" type="OrderNumberType" />
+      <xs:element name="Address" type="AddressType" />
+      <xs:element minOccurs="0" name="ShippingSpeed" type="ShippingSpeedType" />
+      <xs:element minOccurs="0" name="ShippingProvider" type="ShippingProviderType" />
+      <xs:element minOccurs="0" name="ShipMethod" type="ShippingMethodType" />
+      <xs:element minOccurs="0" name="Status" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="OrderAckType">
+    <xs:sequence>
+      <xs:element name="OrderNumber" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PaymentStatusType">
+    <xs:sequence>
+      <xs:element name="Status" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="InventoryQueryType">
+    <xs:sequence>
+      <xs:element name="Category" nillable="true">
+        <xs:annotation>
+          <xs:documentation />
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:totalDigits value="2" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="InventoryType">
+    <xs:sequence maxOccurs="unbounded">
+      <xs:element name="SKU">
+        <xs:annotation>
+          <xs:documentation />
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:length value="6" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="TotalQuantity" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

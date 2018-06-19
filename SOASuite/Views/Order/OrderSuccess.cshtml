@@ -1,0 +1,144 @@
+﻿@model SOASuite.ServiceReference1.OrderType
+
+@{
+    ViewBag.Title = "Order";
+}
+
+<div>
+    <h1>Order @Model.OrderNumber</h1>
+            <p><span>@Model.Email</span><br /></p>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h2>Shipping information</h2>
+                                    <div class="row">
+                                        <div class="col-xs-4">City</div>
+                                        <div class="col-xs-8">
+                                            <p><span>@Model.Shipping.Address.City</span><br /></p>
+                                        </div>
+                                        <div class="col-xs-4">Address</div>
+                                        <div class="col-xs-8">
+                                            <p><span>@Model.Shipping.Address.AddressLine[0]</span><br /></p>
+                                        </div>
+                                        <div class="col-xs-4">Firstname</div>
+                                        <div class="col-xs-8">
+                                            <p><span>@Model.Shipping.Address.FirstName</span><br /></p>
+                                        </div>
+                                        <div class="col-xs-4">Lastname</div>
+                                        <div class="col-xs-8">
+                                            <p><span>@Model.Shipping.Address.LastName</span><br /></p>
+                                        </div>
+                                        <div class="col-xs-4">Phonenumber</div>
+                                        <div class="col-xs-8">
+                                            <p><span>@Model.Shipping.Address.PhoneNumber</span><br /></p>
+                                        </div>
+                                        <div class="col-xs-4">State</div>
+                                        <div class="col-xs-8">
+                                            <p><span>@Model.Shipping.Address.State</span><br /></p>
+                                        </div>
+                                        <div class="col-xs-4">ZipCode</div>
+                                        <div class="col-xs-8">
+                                            <p><span>@Model.Shipping.Address.ZipCode</span><br /></p>
+                                        </div>
+                                    </div>
+                        </div>
+                    </div>
+                </div>           
+
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-xs-12 ">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <h2>Payment information </h2>
+                                            <div class="row">
+                                                <div class="col-xs-4">AuthorizationAmount</div>
+                                                <div class="col-xs-8">
+                                                    <p><span>@Model.Billing.AuthorizationAmount</span><br /></p>
+                                                </div>
+                                                <div class="col-xs-4">AuthorizationAmountSpecified</div>
+                                                <div class="col-xs-8">
+                                                    <p><span>@Model.Billing.AuthorizationAmountSpecified</span><br /></p>
+                                                </div>
+                                                <div class="col-xs-4">AuthorizationDate</div>
+                                                <div class="col-xs-8">
+                                                    <p><span>@Model.Billing.AuthorizationDate</span><br /></p>
+                                                </div>
+                                                <div class="col-xs-4">AuthorizationDateSpecified</div>
+                                                <div class="col-xs-8">
+                                                    <p><span>@Model.Billing.AuthorizationDateSpecified</span><br /></p>
+                                                </div>
+                                                <div class="col-xs-4">CardName</div>
+                                                <div class="col-xs-8">
+                                                    <p><span>@Model.Billing.CardName</span><br /></p>
+                                                </div>
+                                                <div class="col-xs-4">CardNum</div>
+                                                <div class="col-xs-8">
+                                                    <p><span>@Model.Billing.CardNum</span><br /></p>
+                                                </div>
+                                                <div class="col-xs-4">CardPaymentType</div>
+                                                <div class="col-xs-8">
+                                                    <p><span>@Model.Billing.CardPaymentType</span><br /></p>
+                                                </div>
+                                                <div class="col-xs-4">ExpireDate</div>
+                                                <div class="col-xs-8">
+                                                    <p><span>@Model.Billing.ExpireDate</span><br /></p>
+                                                </div>
+                                            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @if (Model.Items.Any()) {
+                <h2>Order</h2>
+                foreach (var y in Model.Items) {
+                    <div class="row">
+                        <div class="col-xs-12 ">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <h2>@y.Description</h2>
+
+                                    <div class="row">
+                                        <div class="col-xs-4">SKU</div>
+                                        <div class="col-xs-8">
+                                            <p><span>@y.SKU</span><br /></p>
+                                        </div>
+                                        <div class="col-xs-4">Brand</div>
+                                        <div class="col-xs-8">
+                                            <p><span>@y.Brand</span><br /></p>
+                                        </div>
+                                        <div class="col-xs-4">Category</div>
+                                        <div class="col-xs-8">
+                                            <p><span>@y.Category</span><br /></p>
+                                        </div>
+                                        <div class="col-xs-4">Model</div>
+                                        <div class="col-xs-8">
+                                            <p><span>@y.Model</span><br /></p>
+                                        </div>
+                                        <div class="col-xs-4">Quantity</div>
+                                        <div class="col-xs-8">
+                                            <p><span>@y.Quantity</span><br /></p>
+                                        </div>
+                                        <div class="col-xs-4">UnitPrice</div>
+                                        <div class="col-xs-8">
+                                            <p><span>@y.UnitPrice</span><br /></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            } else {
+                <div class="alert alert-danger">No items were found.</div>
+            }
+        </div>
+    </div>
+</div>
+
