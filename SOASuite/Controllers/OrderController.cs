@@ -11,38 +11,6 @@ namespace SOASuite.Controllers
 {
     public class OrderController : Controller
     {
-        //private itemtype[] itemlist = new itemtype[3];
-
-        //public OrderController() {
-        //    itemList[0] = new ItemType {
-        //        SKU = "32779",
-        //        Brand = "Slaker",
-        //        Category = 2008,
-        //        Description = "Slaker Water Bottle",
-        //        Model = "Water bottle",
-        //        Quantity = 5,
-        //        UnitPrice = 4.72
-        //    };
-        //    itemList[1] = new ItemType {
-        //        SKU = "30421",
-        //        Brand = "Grand Prix",
-        //        Category = 2005,
-        //        Description = "Grand Prix Bicycle Tires",
-        //        Model = "Bicycle Tires",
-        //        Quantity = 2,
-        //        UnitPrice = 10.72
-        //    };
-        //    itemList[3] = new ItemType {
-        //        SKU = "32861",
-        //        Brand = "Safe-T",
-        //        Category = 1829,
-        //        Description = "Safe-T Helmet",
-        //        Model = "Bicycle helmet",
-        //        Quantity = 1,
-        //        UnitPrice = 60.72
-        //    };
-
-        //}
         // GET: Order
         [HttpGet]
         public ActionResult Index() {
@@ -137,6 +105,9 @@ namespace SOASuite.Controllers
             processOrderPortTypeClient client = new processOrderPortTypeClient();
             processResponse response = await client.processAsync(order);
             order.OrderNumber = response.OrderAck.OrderNumber;
+
+            //Random rnd = new Random();
+            //order.OrderNumber = rnd.Next(1000, 5000).ToString();
 
 
             return View("OrderSuccess", order);
